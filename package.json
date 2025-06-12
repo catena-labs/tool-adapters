@@ -5,7 +5,7 @@
   "homepage": "https://github.com/catena-labs/tool-adapters#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/catena-labs/resolve-did.git"
+    "url": "git+https://github.com/catena-labs/tool-adapters.git"
   },
   "license": "MIT",
   "author": {
