@@ -54,17 +54,6 @@ const toolResults = await handleToolCalls(response, baseTools)
 
 ## API
 
-### Tool Definition
-
-```typescript
-tool({
-  name: string,
-  description: string,
-  parameters: z.ZodSchema,
-  execute: (params: z.infer<typeof parameters>) => Promise<any> | any
-})
-```
-
 ### SDK Adapters
 
 #### Anthropic
