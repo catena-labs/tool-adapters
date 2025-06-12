@@ -23,6 +23,6 @@ jobs:
       - run: pnpm run check
       - run: pnpm run test:integ
         env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-          GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.CI_ANTHROPIC_API_KEY }}
+          GOOGLE_API_KEY: ${{ secrets.CI_GOOGLE_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.CI_OPENAI_API_KEY }}
