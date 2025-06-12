@@ -29,8 +29,8 @@
     "check:types": "tsc --noEmit --pretty",
     "clean": "git clean -fdX dist",
     "format": "prettier --write .",
-    "itest": "dotenv -c test -- vitest",
-    "lint:fix": "eslint . --fix"
+    "lint:fix": "eslint . --fix",
+    "test:integ": "dotenv -c test -- vitest"
   },
   "dependencies": {
     "zod": "^3.25.51",
