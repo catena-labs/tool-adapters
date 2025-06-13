@@ -5,18 +5,18 @@ A lightweight library for defining and converting tools across different AI SDKs
 ## Installation
 
 ```bash
-npm install tool-adapters
+pnpm add tool-adapters
 ```
 
 ## Quick Start
 
 ```typescript
-import { tool } from "@tool-adapters/tool"
+import { tool } from "tool-adapters/tool"
 import { z } from "zod"
 import {
   toAnthropicTools,
   handleToolCalls
-} from "@tool-adapters/adapters/anthropic"
+} from "tool-adapters/adapters/anthropic"
 
 // Define your tools
 const baseTools = [
@@ -62,7 +62,7 @@ const toolResults = await handleToolCalls(response, baseTools)
 import {
   toAnthropicTools,
   handleToolCalls
-} from "@tool-adapters/adapters/anthropic"
+} from "tool-adapters/adapters/anthropic"
 ```
 
 #### OpenAI
@@ -73,7 +73,7 @@ import {
   handleChatCompletionToolCalls,
   toResponsesTools,
   handleResponsesToolCalls
-} from "@tool-adapters/adapters/openai"
+} from "tool-adapters/adapters/openai"
 ```
 
 #### Google AI
@@ -82,11 +82,11 @@ import {
 import {
   toFunctionDeclarations,
   handleFunctionCalls
-} from "@tool-adapters/adapters/google"
+} from "tool-adapters/adapters/google"
 ```
 
 #### Vercel AI SDK
 
 ```typescript
-import { toVercelTools } from "@tool-adapters/adapters/vercel"
+import { toVercelTools } from "tool-adapters/adapters/vercel"
 ```
