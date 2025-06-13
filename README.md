@@ -11,7 +11,7 @@ pnpm add tool-adapters
 ## Quick Start
 
 ```typescript
-import { tool } from "tool-adapters/tool"
+import { tool } from "tool-adapters/core"
 import { z } from "zod"
 import {
   toAnthropicTools,
