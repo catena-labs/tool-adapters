@@ -48,6 +48,7 @@ const toolResults = await handleToolCalls(response, baseTools)
 - OpenAI (Chat Completions & Responses)
 - Google AI
 - Vercel AI SDK
+- MCP (Model Context Protocol)
 
 ## API
 
@@ -83,4 +84,14 @@ import {
 
 ```typescript
 import { toVercelTools } from "tool-adapters/vercel"
+```
+
+#### MCP (Model Context Protocol)
+
+```typescript
+import { addServerTools } from "tool-adapters/mcp"
+import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js"
+
+const server = new McpServer({ name: "my-server", version: "1.0.0" })
+addServerTools(server, baseTools)
 ```

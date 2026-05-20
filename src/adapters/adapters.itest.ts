@@ -191,7 +191,7 @@ test("google gen ai", async () => {
   const modelResponseContent = response.candidates?.[0]?.content
 
   if (!modelResponseContent) {
-    throw new Error("No model response conent")
+    throw new Error("No model response content")
   }
 
   const functionResults = await handleGoogleFunctionCalls(response, baseTools)
