@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any -- downstream libraries play nicer with any than unknown */
 import type { z } from "zod"
+import zodToJsonSchema from "zod-to-json-schema"
 
 /**
  * Configuration interface for creating a Tool
@@ -71,4 +72,18 @@ export function tool<TParameters extends z.ZodSchema, TResult = any>(
 
 export function getToolMap(tools: ToolBase[]) {
   return new Map(tools.map((t) => [t.name, t]))
+}
+
+/**
+ * Converts a tool's Zod parameters to a plain JSON Schema object, stripping
+ * the `$schema` meta key emitted by `zod-to-json-schema`, which is not a
+ * valid field in the tool parameter schemas expected by the target APIs
+ * (Anthropic, OpenAI, Google).
+ */
+export function toParameterSchema(tool: ToolBase): Record<string, unknown> {
+  const { $schema: _, ...schema } = zodToJsonSchema(tool.parameters) as Record<
+    string,
+    unknown
+  >
+  return schema
 }

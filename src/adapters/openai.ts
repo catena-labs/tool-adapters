@@ -1,5 +1,4 @@
-import zodToJsonSchema from "zod-to-json-schema"
-import { getToolMap } from "../tool"
+import { getToolMap, toParameterSchema } from "../tool"
 import type { ToolBase } from "../tool"
 import type OpenAI from "openai"
 
@@ -11,7 +10,7 @@ export function toChatCompletionTools(
     function: {
       name: tool.name,
       description: tool.description,
-      parameters: zodToJsonSchema(tool.parameters)
+      parameters: toParameterSchema(tool)
     }
   }))
 }
@@ -54,7 +53,7 @@ export function toResponsesTools(
     type: "function",
     name: tool.name,
     description: tool.description,
-    parameters: zodToJsonSchema(tool.parameters),
+    parameters: toParameterSchema(tool),
     strict: true
   }))
 }
