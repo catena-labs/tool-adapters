@@ -47,16 +47,62 @@ export async function handleChatCompletionToolCalls(
   return results.filter((r) => !!r)
 }
 
+/**
+ * Recursively enforces OpenAI strict-mode requirements on a converted JSON
+ * Schema: every object must declare `additionalProperties: false` and must
+ * list every property in `properties` under `required`. Zod optional fields
+ * only appear in `required` when non-optional, so an object whose fields are
+ * all optional (or an empty object) omits `required` entirely — which strict
+ * mode rejects with a 400.
+ */
+function enforceStrictRequirements(schema: unknown): void {
+  if (Array.isArray(schema)) {
+    for (const item of schema) {
+      enforceStrictRequirements(item)
+    }
+    return
+  }
+  if (typeof schema !== "object" || schema === null) {
+    return
+  }
+  const node = schema as Record<string, unknown>
+  if (
+    node.type === "object" &&
+    typeof node.properties === "object" &&
+    node.properties !== null
+  ) {
+    const properties = Object.keys(node.properties)
+    node.additionalProperties = false
+    const required = new Set(
+      Array.isArray(node.required) ? (node.required as unknown[]) : []
+    )
+    for (const property of properties) {
+      required.add(property)
+    }
+    node.required = [...required]
+  }
+  for (const value of Object.values(node)) {
+    enforceStrictRequirements(value)
+  }
+}
+
 export function toResponsesTools(
   tools: ToolBase[]
 ): OpenAI.Responses.FunctionTool[] {
-  return tools.map((tool) => ({
-    type: "function",
-    name: tool.name,
-    description: tool.description,
-    parameters: zodToJsonSchema(tool.parameters),
-    strict: true
-  }))
+  return tools.map((tool) => {
+    const parameters = zodToJsonSchema(tool.parameters) as Record<
+      string,
+      unknown
+    >
+    enforceStrictRequirements(parameters)
+    return {
+      type: "function",
+      name: tool.name,
+      description: tool.description,
+      parameters,
+      strict: true
+    }
+  })
 }
 
 export async function handleResponsesToolCalls(
