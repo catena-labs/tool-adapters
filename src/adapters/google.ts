@@ -1,5 +1,4 @@
-import zodToJsonSchema from "zod-to-json-schema"
-import { getToolMap } from "../tool"
+import { getToolMap, toParameterSchema } from "../tool"
 import type { ToolBase } from "../tool"
 import type {
   FunctionDeclaration,
@@ -14,7 +13,7 @@ export function toFunctionDeclarations(
   return tools.map((tool) => ({
     description: tool.description,
     name: tool.name,
-    parameters: zodToJsonSchema(tool.parameters) as Schema
+    parameters: toParameterSchema(tool) as Schema
   }))
 }
 

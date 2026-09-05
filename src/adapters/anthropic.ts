@@ -1,5 +1,4 @@
-import zodToJsonSchema from "zod-to-json-schema"
-import { getToolMap } from "../tool"
+import { getToolMap, toParameterSchema } from "../tool"
 import type { ToolBase } from "../tool"
 import type { Anthropic } from "@anthropic-ai/sdk"
 
@@ -9,7 +8,7 @@ export function toAnthropicTools(tools: ToolBase[]): Anthropic.Tool[] {
       name: tool.name,
       description: tool.description,
       input_schema: {
-        ...zodToJsonSchema(tool.parameters),
+        ...toParameterSchema(tool),
         type: "object"
       }
     }
