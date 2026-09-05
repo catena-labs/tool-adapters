@@ -31,7 +31,12 @@ export async function handleFunctionCalls(
       const tool = toolMap.get(functionCall.name ?? "unknown")
 
       if (!tool) {
-        return
+        return {
+          name: functionCall.name,
+          response: {
+            error: `Unknown tool: ${functionCall.name ?? "unknown"}`
+          }
+        }
       }
 
       const result = (await tool.execute(functionCall.args)) as unknown

@@ -28,7 +28,13 @@ export async function handleChatCompletionToolCalls(
     toolCalls.map(async (toolCall) => {
       const tool = toolMap.get(toolCall.function.name)
       if (!tool) {
-        return
+        return {
+          role: "tool" as const,
+          tool_call_id: toolCall.id,
+          content: JSON.stringify({
+            error: `Unknown tool: ${toolCall.function.name}`
+          })
+        }
       }
 
       const args: unknown = tool.parameters.parse(
@@ -73,7 +79,11 @@ export async function handleResponsesToolCalls(
     toolCalls.map(async (toolCall) => {
       const tool = toolMap.get(toolCall.name)
       if (!tool) {
-        return
+        return {
+          type: "function_call_output" as const,
+          call_id: toolCall.call_id,
+          output: JSON.stringify({ error: `Unknown tool: ${toolCall.name}` })
+        }
       }
 
       const args: unknown = tool.parameters.parse(

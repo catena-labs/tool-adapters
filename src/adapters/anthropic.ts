@@ -28,7 +28,12 @@ export async function handleToolCalls(
     toolCalls.map(async (toolCall) => {
       const tool = toolMap.get(toolCall.name)
       if (!tool) {
-        return
+        const errorResult: Anthropic.ToolResultBlockParam = {
+          type: "tool_result",
+          tool_use_id: toolCall.id,
+          content: JSON.stringify({ error: `Unknown tool: ${toolCall.name}` })
+        }
+        return errorResult
       }
 
       const response = (await tool.execute(toolCall.input)) as unknown
